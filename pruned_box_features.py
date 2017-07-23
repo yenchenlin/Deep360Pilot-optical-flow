@@ -14,14 +14,12 @@ def parse_args():
     return args
 
 args = parse_args()
-BASE_PATH = '/home/yenchen/data/frame_' + args.domain + '/'
-NAMEs = sorted(np.load('/home/yenchen/Workspace/' + str(args.n_boxes) + \
-                       '_boxes_data/metadata/metadata_' + args.domain + '.npy').item().keys())
+NAMEs = sorted(np.load('metadata/metadata_' + args.domain + '.npy').item().keys())
 BOX_FEATURE = 'divide_area_pruned_boxes'
 
 def gen_pruned_features(name):
     print name
-    feature_dir = '/home/yenchen/data/feature_' + args.domain + \
+    feature_dir = 'data/feature_' + args.domain + \
         '_' + str(args.n_boxes) + 'boxes/' + name + '/'
     n_clips = len(glob.glob(feature_dir + BOX_FEATURE + '*.npy'))
     for clip in xrange(1, n_clips+1):

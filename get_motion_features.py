@@ -46,8 +46,8 @@ def motion_saliency(flow_mag, n):
 def get_motion_features(name):
     print name
 
-    FLOW_DIR = '/home/yenchen/data/of_' + args.domain + '/' + name + '/'
-    BOXES_DIR = '/home/yenchen/data/feature_' + args.domain + \
+    FLOW_DIR = 'data/of_' + args.domain + '/' + name + '/'
+    BOXES_DIR = 'data/feature_' + args.domain + \
         '_' + str(args.n_boxes) + 'boxes/' + name + '/'
 
     n_frames = len(glob.glob(FLOW_DIR + '*.png'))
@@ -137,7 +137,8 @@ def get_motion_features(name):
 
 if __name__ == '__main__':
     args = parse_args()
-    NAMEs = sorted(np.load('/home/yenchen/Workspace/' + str(args.n_boxes) + \
-                           '_boxes_data/metadata/metadata_' + args.domain + '.npy').item().keys())
+    NAMEs = sorted(np.load('metadata/metadata_' + args.domain + '.npy').item().keys())
+    #NAMEs = sorted(np.load('/home/yenchen/Workspace/' + str(args.n_boxes) + \
+            #                       '_boxes_data/metadata/metadata_' + args.domain + '.npy').item().keys())
     print NAMEs
     Parallel(n_jobs=5)(delayed(get_motion_features)(name) for name in NAMEs)

@@ -1,8 +1,8 @@
 # This code is currently deprecated, use get_motion_inclusion.py instead
 
+import cv2
 import numpy as np
 import glob
-import cv2
 import argparse
 from joblib import Parallel, delayed
 
@@ -47,8 +47,8 @@ def motion_saliency(flow_mag, n):
     return likeli * prior
 
 def get_divide_area_boxes(name):
-    FLOW_DIR = '/home/yenchen/data/of_' + args.domain + '/' + name + '/'
-    BOXES_DIR = '/home/yenchen/data/feature_' + args.domain + '_' + \
+    FLOW_DIR = 'data/of_' + args.domain + '/' + name + '/'
+    BOXES_DIR = 'data/feature_' + args.domain + '_' + \
         str(args.n_boxes) + 'boxes/' + name + '/'
 
     n_frames = len(glob.glob(FLOW_DIR + '*.png'))
@@ -105,7 +105,6 @@ def get_divide_area_boxes(name):
 if __name__ == '__main__':
     args = parse_args()
 
-    NAMEs = sorted(np.load('/home/yenchen/Workspace/' + str(args.n_boxes) + '_boxes_data/metadata/metadata_'
-                           + args.domain + '.npy').item().keys())
+    NAMEs = sorted(np.load('metadata/metadata_' + args.domain + '.npy').item().keys())
     print NAMEs
     Parallel(n_jobs=5)(delayed(get_divide_area_boxes)(name) for name in NAMEs)
