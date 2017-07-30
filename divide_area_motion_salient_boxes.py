@@ -1,10 +1,15 @@
 # This code is currently deprecated, use get_motion_inclusion.py instead
 
+import os
 import cv2
-import numpy as np
 import glob
 import argparse
+import numpy as np
 from joblib import Parallel, delayed
+
+import sys
+sys.path.append(os.path.abspath('.'))
+import config as cfg
 
 W = 1920
 H = 960
@@ -47,11 +52,12 @@ def motion_saliency(flow_mag, n):
     return likeli * prior
 
 def get_divide_area_boxes(name):
-    FLOW_DIR = 'data/of_' + args.domain + '/' + name + '/'
-    BOXES_DIR = 'data/feature_' + args.domain + '_' + \
-        str(args.n_boxes) + 'boxes/' + name + '/'
+    FLOW_DIR = os.path.join(cfg.FEATURE_PATH, 'of_' + args.domain + '/' + name + '/')
+    BOXES_DIR = os.path.join(cfg.FEATURE_PATH, 'feature_' + args.domain + '_' + \
+        str(args.n_boxes) + 'boxes/' + name + '/')
 
     n_frames = len(glob.glob(FLOW_DIR + '*.png'))
+    assert n_frames != 0, "Empty frames in {}".format(FLOW_DIR)
 
     # init boxes
     clip_boxes_index = 1
